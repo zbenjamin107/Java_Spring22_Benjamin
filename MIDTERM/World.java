@@ -1,24 +1,31 @@
-//import java.awt.Color;
-public class World{
-    
-    private Cell[][] world; // THE ONLY CELL GRID
 
-    // in the event that i want to make a world and set it equall to the current array of cells
+/*
+ * World is contains 2d array called word and int size which is length and.. 
+ * ..width for the array
+ */
+public class World{
+    int size; 
+    private Cell[][] world; 
+
+    // creates new World given 2d array(matrix)
     public World(Cell[][] matrix){
         world = matrix;
+        size = 350;
     }
-
-    public World(){// constructor that ceates an intitial grid and sets it equal to the world
+    //creates new World
+    public World(){
+        size =350;
         world = createGrid();
+        
     }
-
-    public Cell[][] getGridFromWorld(){// using the world instance, return the cell array
+    //returns the data member world
+    public Cell[][] getGridFromWorld(){
         return this.world;
     }
-
-    public Cell[][] createGrid(){// create an array of cells from 
-        int size = 350;// size of the array  
-         Cell[][] gridMatrix = new Cell[size][size]; // new matrix 350 by 350
+    //creates a 2d array of Cells
+    public Cell[][] createGrid(){
+         
+         Cell[][] gridMatrix = new Cell[size][size]; 
          for(int i=0 ; i < gridMatrix.length ; ++i){// for index in the gridmatrix(which is the row)
              for (int j= 0; j< gridMatrix[i].length; ++j){// for index in the gridmatrix row(which is the column)
                  if (i==0 || i ==(size-1)){//if the index is in the matrix side edge..
@@ -75,43 +82,35 @@ public class World{
         double probCatch = .28;// chance an adjacent tree spreads fire
         int firesNear=0;// fires near
         
-        // CONSIDER REMOVING TRY/CATCH AND REPLACING WITH A BOUNDARY CHECK -Prof. Ken
+        
         /* this next section is going to test each direction for adjacent fires. If a tree
         is on fire +1 to firesNear. try statement for when it comes to the edge of the matrix. */
-        try{ 
+        if (i > 0){ 
             if (world[i-1][j].getState().equals(Cell.states.BURNING)) firesNear +=1;// N cord
+            if(j > 0){
+                if (world[i-1][j-1].getState().equals(Cell.states.BURNING)) firesNear +=1;// NE cord
+            }
+            if (j < size){
+                if (world[i-1][j+1].getState().equals(Cell.states.BURNING)) firesNear +=1;// NW cord
+            }
         }
-        catch(Exception e){}
-        try{
+        if(i < size){
             if (world[i+1][j].getState().equals(Cell.states.BURNING)) firesNear +=1; // S cord
+            if(j > 0){
+                if (world[i+1][j-1].getState().equals(Cell.states.BURNING)) firesNear +=1;// SE cord
+            }
+            if(j < size){
+                if (world[i+1][j+1].getState().equals(Cell.states.BURNING)) firesNear +=1;// SW cord
+            }
+
         }
-        catch(Exception e){}
-        try{
-            if (world[i][j-1].getState().equals(Cell.states.BURNING)) firesNear +=1;// E cord   
+        if(j > 0){
+            if (world[i][j-1].getState().equals(Cell.states.BURNING)) firesNear +=1;// E cord
         }
-        catch(Exception e){}
-        try{ 
+        if(j < size){
             if (world[i][j+1].getState().equals(Cell.states.BURNING)) firesNear +=1;// W cord
         }
-        catch(Exception e){}
-        try{
-            if (world[i-1][j-1].getState().equals(Cell.states.BURNING)) firesNear +=1;// NE cord
-        }
-        catch(Exception e){}
-        try{
-            if (world[i-1][j+1].getState().equals(Cell.states.BURNING)) firesNear +=1;// NW cord
-        }
-        catch(Exception e){}
-        try{
-            if (world[i+1][j-1].getState().equals(Cell.states.BURNING)) firesNear +=1;// SE cord
-        }
-        catch(Exception e){}
-        try{
-            if (world[i+1][j+1].getState().equals(Cell.states.BURNING)) firesNear +=1;// SW cord
-        }
-        catch(Exception e){}
-        
-        
+
         double probSpread = 1-(Math.pow((1-probCatch),firesNear)); // P= 1-(1-chance)^number tries. found on the internet 
         return probSpread;
 
