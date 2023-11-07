@@ -1,7 +1,8 @@
-//import java.awt.Color;
+/*
+ * Painter is what paints each block in our World so we see color
+ */
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-//import java.awt.RenderingHints;         
 import java.awt.event.ActionEvent;      
 import java.awt.event.ActionListener;   
 import javax.swing.JPanel;              
@@ -39,11 +40,11 @@ public class Painter extends JPanel implements ActionListener{
                 g2d.setColor(cell.getColor());  // set color of rectangle in g2d to color of cell
                 g2d.fillRect(x,y,rectSide,rectSide);// fill rectangle in g2d according to its location(x,y) and size(length,width)
                 x+=rectSide;// next x coordinate. found by adding the length of the previous rectangel
-            }// end inner loop 
+            } 
             y+=rectSide;// next y coordinate. found by adding the length of the previous rectangel
             x=1;
-        }// end outer loop
-    } //end method 
+        }
+    }  
 }    
 
 
